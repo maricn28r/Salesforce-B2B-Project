@@ -8,44 +8,51 @@ on:
     branches:
       - development
 
+env:
+  SF_USE_GENERIC_UNIX_KEYCHAIN: true
+  SF_LOG_LEVEL: DEBUG
+
 jobs:
   test-org-connection:
     runs-on: ubuntu-latest
+
     steps:
-      # 1️⃣ Checkout repo
-      - uses: actions/checkout@v3
+      # 1️⃣ Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      # 2️⃣ Instalacja Node.js i Salesforce CLI przez npm
-      - name: Install Node.js and Salesforce CLI
-        run: |
-          curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-          sudo apt-get install -y nodejs
-          npm install sfdx-cli --global
-          sfdx --version
+      # 2️⃣ Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
 
-      # 3️⃣ Deszyfrowanie klucza JWT
-      - name: Decrypt JWT Key
+      # 3️⃣ Install Salesforce CLI via npm
+      - name: Install Salesforce CLI
         run: |
-          openssl enc -nosalt -aes-256-cbc -d \
-          -in assets/server.key.enc \
-          -out server.key \
-          -base64 \
-          -K ${{ secrets.DECRYPTION_KEY }} \
-          -iv ${{ secrets.DECRYPTION_IV }}
+          npm install -g @salesforce/cli
+          sf --version
 
-      # 4️⃣ Autoryzacja org przez JWT
-      - name: Authorize Org
+      # 4️⃣ Create JWT key file from secret
+      - name: Create JWT Key File
         run: |
-          echo "Authorizing org..."
-          sfdx force:auth:jwt:grant \
-            --clientid ${{ secrets.CONSUMER_KEY }} \
-            --username ${{ secrets.USERNAME }} \
-            --jwtkeyfile server.key \
-            --setdefaultdevhubusername \
-            --setalias hub-org
+          echo "${{ secrets.SF_JWT_KEY }}" > jwt-key.txt
+          chmod 600 jwt-key.txt
 
-      # 5️⃣ Test połączenia z orgiem
-      - name: Test Org Connection
+      # 5️⃣ Authenticate to Salesforce using JWT
+      - name: Authenticate to Salesforce
         run: |
-          echo "Checking org connection..."
-          sfdx force:org:display -u hub-org
+          sf org login jwt \
+            --client-id ${{ secrets.M_SF_CLIENT_ID }} \
+            --jwt-key-file jwt-key.txt \
+            --username ${{ secrets.M_SF_USERNAME }} \
+            --instance-url ${{ secrets.M_SF_INSTANCE_URL }} \
+            --alias target-org \
+            --set-default
+
+      # 6️⃣ Verify authentication
+      - name: Verify Authentication
+        run: |
+          sf org display --target-org target-org
