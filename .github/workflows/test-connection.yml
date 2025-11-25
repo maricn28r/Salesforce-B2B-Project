@@ -15,8 +15,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup Salesforce CLI
-        uses: salesforcecli/action@v1
+      - name: Install Salesforce CLI
+        run: |
+          curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+          sudo apt-get install -y nodejs
+          npm install sfdx-cli --global
+          sfdx --version
 
       - name: Test Org Connection
         run: sfdx force:org:display -u ${{ secrets.SF_USERNAME }}
