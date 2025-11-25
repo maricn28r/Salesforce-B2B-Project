@@ -17,31 +17,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # 2️⃣ Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
 
-      # 3️⃣ Install Salesforce CLI via npm
       - name: Install Salesforce CLI
         run: |
           npm install -g @salesforce/cli
           sf --version
 
-      # 4️⃣ Create JWT key file from secret
       - name: Create JWT Key File
         run: |
           echo "${{ secrets.SF_JWT_KEY }}" > jwt-key.txt
           chmod 600 jwt-key.txt
 
-      # 5️⃣ Authenticate to Salesforce using JWT
       - name: Authenticate to Salesforce
         run: |
           sf org login jwt \
@@ -52,7 +47,6 @@ jobs:
             --alias target-org \
             --set-default
 
-      # 6️⃣ Verify authentication
       - name: Verify Authentication
         run: |
           sf org display --target-org target-org
