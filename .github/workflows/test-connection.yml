@@ -12,14 +12,11 @@ jobs:
   test-org-connection:
     runs-on: ubuntu-latest
     steps:
-      # Pobierz kod z repo
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Zainstaluj Salesforce CLI
       - name: Setup Salesforce CLI
-        uses: amtrack/sfdx-action@v1
+        uses: salesforcecli/action@v1
 
-      # Sprawdź połączenie z orgiem
       - name: Test Org Connection
         run: sfdx force:org:display -u ${{ secrets.SF_USERNAME }}
