@@ -12,15 +12,41 @@ jobs:
   test-org-connection:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      # 1️⃣ Checkout repo
+      - uses: actions/checkout@v3
 
+      # 2️⃣ Pobranie i instalacja Salesforce CLI
       - name: Install Salesforce CLI
         run: |
-          curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-          sudo apt-get install -y nodejs
-          npm install sfdx-cli --global
+          wget https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
+          mkdir sfdx-cli
+          tar xJf sfdx-linux-amd64.tar.xz -C sfdx-cli --strip-components 1
+          ./sfdx-cli/install
           sfdx --version
 
+      # 3️⃣ Deszyfrowanie klucza JWT
+      - name: Decrypt JWT Key
+        run: |
+          openssl enc -nosalt -aes-256-cbc -d \
+          -in assets/server.key.enc \
+          -out server.key \
+          -base64 \
+          -K ${{ secrets.DECRYPTION_KEY }} \
+          -iv ${{ secrets.DECRYPTION_IV }}
+
+      # 4️⃣ Autoryzacja do Salesforce org przez JWT
+      - name: Authorize Org
+        run: |
+          echo "Authorizing org..."
+          sfdx force:auth:jwt:grant \
+            --clientid ${{ secrets.CONSUMER_KEY }} \
+            --username ${{ secrets.USERNAME }} \
+            --jwtkeyfile server.key \
+            --setdefaultdevhubusername \
+            --setalias hub-org
+
+      # 5️⃣ Test połączenia z orgiem
       - name: Test Org Connection
-        run: sfdx force:org:display -u ${{ secrets.SF_USERNAME }}
+        run: |
+          echo "Checking org connection..."
+          sfdx force:org:display -u hub-org
