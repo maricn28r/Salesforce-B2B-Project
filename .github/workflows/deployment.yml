@@ -1,0 +1,50 @@
+name: 🚀 Automatic Deployment to QA/PROD (Full Source)
+
+on:
+  push:
+    branches:
+      - qa
+      - main
+
+jobs:
+  deploy_metadata:
+    name: Deploy Full Source to ${{ github.ref == 'refs/heads/qa' && 'QA Sandbox' || 'Production' }}
+    runs-on: ubuntu-latest
+
+    env:
+      SF_INSTANCE_URL: ${{ secrets.M_SF_INSTANCE_URL }}
+      SF_TARGET_USERNAME: ${{ github.ref == 'refs/heads/qa' && secrets.M_SF_QA_USERNAME || secrets.M_SF_PROD_USERNAME }}
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Salesforce CLI
+        uses: sfdx-actions/setup-sfdx@v1
+
+      - name: Create JWT Key File
+        run: |
+          echo "${{ secrets.SF_JWT_KEY }}" > jwt-key.txt
+          chmod 600 jwt-key.txt
+          
+      - name: Authenticate to Target Org
+        run: |
+          sfdx auth:jwt:grant \
+            --client-id ${{ secrets.M_SF_CLIENT_ID }} \
+            --jwt-key-file jwt-key.txt \
+            --username ${{ env.SF_TARGET_USERNAME }} \
+            --instance-url ${{ env.SF_INSTANCE_URL }} \
+            --setalias target-deployment-org
+
+      - name: Deploy Full Source Code
+        run: |
+          sfdx force:source:deploy \
+            --sourcepath force-app \
+            --targetusername target-deployment-org \
+            --testlevel RunLocalTests # Wymóg uruchomienia testów przy deploymentach
+          
+      - name: Deployment Summary
+        if: success()
+        run: echo "Deployment do ${{ github.ref }} zakończony sukcesem!"
