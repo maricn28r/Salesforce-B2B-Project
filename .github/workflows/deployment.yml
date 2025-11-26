@@ -1,4 +1,4 @@
-name: 🚀 Automatic Deployment to QA/PROD (Full Source)
+name: Automatic Deployment to QA/PROD
 
 on:
   push:
