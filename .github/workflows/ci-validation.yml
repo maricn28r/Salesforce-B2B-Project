@@ -56,5 +56,5 @@ jobs:
           sf project deploy start \
             --source-dir force-app \
             --target-org validation-org \
-            --check-only \
+            --dry-run \
             --test-level RunLocalTests
