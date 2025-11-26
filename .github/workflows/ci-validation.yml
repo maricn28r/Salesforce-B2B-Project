@@ -47,9 +47,9 @@ jobs:
             --instance-url ${{ secrets.M_SF_INSTANCE_URL }} \
             --alias validation-org
           
-      # - name: Set default org (Optional)
-      #   run: |
-      #     sf config set default-org validation-org
+      - name: Set default org (Optional)
+        run: |
+          sf config set default-org validation-org
 
       - name: Perform Validation Deploy Check
         run: |
