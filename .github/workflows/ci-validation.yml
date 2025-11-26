@@ -1,4 +1,4 @@
-name: Salesforce CI: Validate Pull Request
+name: Validate Pull Request
 
 # Ten workflow uruchamia się automatycznie przy zdarzeniach Pull Request
 on:
