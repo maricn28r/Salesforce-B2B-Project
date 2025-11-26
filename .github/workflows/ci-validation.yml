@@ -1,18 +1,15 @@
 name: Validate Pull Request
 
-# Ten workflow uruchamia się automatycznie przy zdarzeniach Pull Request
 on:
   pull_request:
-    types: [opened, synchronize, reopened] # Uruchamia przy otwarciu PR lub po każdym PUSHU do PR
+    types: [opened, synchronize, reopened]
     branches:
-      - development  # Dotyczy PR celujących w development
-      - qa           # Dotyczy PR celujących w qa
+      - development  
+      - qa           
     paths:
-      - 'force-app/**' # Ogranicza uruchomienie tylko do zmian w folderze z metadanymi Salesforce
+      - 'force-app/**' 
 
 jobs:
-  # WALIDACJA METADANYCH I TESTY
-  # To zadanie zwraca status (zielony/czerwony) do Pull Requesta
   validate_code:
     name: 🛡️ Validate Deploy & Run Local Tests
     runs-on: ubuntu-latest
@@ -23,26 +20,22 @@ jobs:
         with:
           fetch-depth: 0 
 
-      # ZMIANA: Instalacja Node.js (wymagana przez sf cli)
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "18"
 
-      # ZMIANA: Instalacja nowego Salesforce CLI (sf)
       - name: Install Salesforce CLI
         run: |
           npm install -g @salesforce/cli
           sf --version
 
-      # ZMIANA: Bezpieczne tworzenie pliku klucza JWT
       - name: Create JWT Key File
         run: |
           # Odtwórz plik klucza prywatnego z Secrets
           echo "${{ secrets.SF_JWT_KEY }}" > jwt-key.txt
           chmod 600 jwt-key.txt
           
-      # ZMIANA: Autoryzacja do Orga Docelowego (Użycie JWT i nowej składni sf)
       - name: Authorize Target Org for Validation
         run: |
           sf org login jwt \
@@ -52,15 +45,12 @@ jobs:
             --instance-url ${{ secrets.M_SF_INSTANCE_URL }} \
             --alias validation-org
           
-      # Ustawienie Aliasu (opcjonalne, ale dobra praktyka)
       - name: Set default org (Optional)
         run: |
           sf config set default-org validation-org
 
-      # KLUCZOWA KOMENDA SFDX 1: Walidacja (Deployment Check Only)
       - name: Perform Validation Deploy Check
         run: |
-          # Używamy starszej komendy sfdx dla sprawdzonego deploymentu
           sfdx force:source:deploy \
             --sourcepath force-app \
             --targetusername validation-org \
