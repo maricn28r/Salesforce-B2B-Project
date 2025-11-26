@@ -11,7 +11,7 @@ on:
 
 jobs:
   validate_code:
-    name: 🛡️ Validate Deploy & Run Local Tests
+    name: Validate Deploy & Run Local Tests
     runs-on: ubuntu-latest
     
     steps:
@@ -32,7 +32,6 @@ jobs:
 
       - name: Create JWT Key File
         run: |
-          # Odtwórz plik klucza prywatnego z Secrets
           echo "${{ secrets.SF_JWT_KEY }}" > jwt-key.txt
           chmod 600 jwt-key.txt
           
