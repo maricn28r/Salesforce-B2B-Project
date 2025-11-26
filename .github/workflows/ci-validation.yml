@@ -2,12 +2,9 @@ name: Validate Pull Request
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
     branches:
       - development  
-      - qa           
-    paths:
-      - 'force-app/**' 
+      - qa
 
 jobs:
   validate_code:
