@@ -57,4 +57,3 @@ jobs:
             --source-dir force-app \
             --target-org validation-org \
             --dry-run \
-            --test-level RunLocalTests
