@@ -7,13 +7,8 @@ on:
       - main
 jobs:
   deploy_metadata:
-    name: Deploy Full Source to ${{ github.ref == 'refs/heads/qa' && 'QA Sandbox' || 'Production' }}
+    name: Deploy Full Source to ORG
     runs-on: ubuntu-latest
-
-    env:
-      SF_INSTANCE_URL: ${{ secrets.M_SF_INSTANCE_URL }} 
-      
-      SF_TARGET_USERNAME: ${{ github.ref == 'refs/heads/qa' && secrets.M_SF_QA_USERNAME || secrets.M_SF_PROD_USERNAME }}
 
     steps:
       - name: Checkout Source Code
@@ -47,4 +42,4 @@ jobs:
           
       - name: Deployment Summary
         if: success()
-        run: echo "Deployment do ${{ github.ref }} zakończony sukcesem!"
+        run: echo "Deployment to ORG completed successfully!"
