@@ -11,10 +11,6 @@ jobs:
     name: Deploy Full Source to ${{ github.ref == 'refs/heads/qa' && 'QA Sandbox' || 'Production' }}
     runs-on: ubuntu-latest
 
-    env:
-      SF_INSTANCE_URL: ${{ secrets.M_SF_INSTANCE_URL }}
-      SF_TARGET_USERNAME: ${{ github.ref == 'refs/heads/qa' && secrets.M_SF_QA_USERNAME || secrets.M_SF_PROD_USERNAME }}
-
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v4
@@ -29,14 +25,14 @@ jobs:
           echo "${{ secrets.SF_JWT_KEY }}" > jwt-key.txt
           chmod 600 jwt-key.txt
           
-      - name: Authenticate to Target Org
+      - name: Authorize Target Org for Validation
         run: |
-          sfdx auth:jwt:grant \
+          sf org login jwt \
             --client-id ${{ secrets.M_SF_CLIENT_ID }} \
             --jwt-key-file jwt-key.txt \
-            --username ${{ env.SF_TARGET_USERNAME }} \
-            --instance-url ${{ env.SF_INSTANCE_URL }} \
-            --setalias target-deployment-org
+            --username ${{ secrets.M_SF_USERNAME }} \
+            --instance-url ${{ secrets.M_SF_INSTANCE_URL }} \
+            --alias validation-org
 
       - name: Deploy Full Source Code
         run: |
