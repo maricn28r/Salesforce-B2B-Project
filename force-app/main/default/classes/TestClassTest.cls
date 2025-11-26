@@ -5,6 +5,6 @@ private class TestClassTest {
     static void myUnitTest() {
         Integer expected = 1;
         Integer actual = 1;
-        Assert.areEqual(expected, actual)
+        Assert.areEqual(expected, actual);
     }
 }
