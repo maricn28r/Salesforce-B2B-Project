@@ -47,14 +47,14 @@ jobs:
             --instance-url ${{ secrets.M_SF_INSTANCE_URL }} \
             --alias validation-org
           
-      - name: Set default org (Optional)
-        run: |
-          sf config set default-org validation-org
+      # - name: Set default org (Optional)
+      #   run: |
+      #     sf config set default-org validation-org
 
       - name: Perform Validation Deploy Check
         run: |
-          sfdx force:source:deploy \
-            --sourcepath force-app \
-            --targetusername validation-org \
-            --checkonly \
-            --testlevel RunLocalTests # Flaga do walidacji kodu i testów
+          sf project deploy start \
+            --source-dir force-app \
+            --target-org validation-org \
+            --check-only \
+            --test-level RunLocalTests
