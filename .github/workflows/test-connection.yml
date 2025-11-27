@@ -1,0 +1,55 @@
+name: Test Salesforce Connection
+
+on:
+  push:
+    branches:
+      - development
+  pull_request:
+    branches:
+      - development
+
+env:
+  SF_USE_GENERIC_UNIX_KEYCHAIN: true
+  SF_LOG_LEVEL: DEBUG
+
+jobs:
+  test-org-connection:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Install Salesforce CLI
+        run: |
+          npm install -g @salesforce/cli
+          sf --version
+
+      - name: Create JWT Key File
+        run: |
+          echo "${{ secrets.JWT_KEY }}" > jwt-key.txt
+          chmod 600 jwt-key.txt
+
+      - name: Authenticate to Salesforce using JWT
+        run: |
+          sf org login jwt \
+            --client-id ${{ secrets.CLIENT_ID }} \
+            --jwt-key-file jwt-key.txt \
+            --username ${{ secrets.USERNAME }} \
+            --instance-url ${{ secrets.INSTANCE_URL }} \
+            --alias target-org
+
+      - name: Set default org
+        run: |
+          sf config set default-org target-org
+
+      - name: Verify Authentication
+        run: |
+          sf org display --target-org target-org
