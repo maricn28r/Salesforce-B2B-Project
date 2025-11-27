@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExtlClntAppGlobalOauthSettings xmlns="http://soap.sforce.com/2006/04/metadata">
+    <callbackUrl>http://localhost:1717/OauthRedirect</callbackUrl>
+    <certificate>MIIEXjCCA0agAwIBAgIOAZq/k86jAAAAAEnPXFUwDQYJKoZIhvcNAQELBQAweDEQ
+MA4GA1UEAwwHR2l0X0h1YjEYMBYGA1UECwwPMDBEZzUwMDAwMDBkbVJnMRcwFQYD
+VQQKDA5TYWxlc2ZvcmNlLmNvbTEWMBQGA1UEBwwNU2FuIEZyYW5jaXNjbzELMAkG
+A1UECAwCQ0ExDDAKBgNVBAYTA1VTQTAeFw0yNTExMjYwOTUyMDZaFw0yNjExMjYw
+MDAwMDBaMHgxEDAOBgNVBAMMB0dpdF9IdWIxGDAWBgNVBAsMDzAwRGc1MDAwMDAw
+ZG1SZzEXMBUGA1UECgwOU2FsZXNmb3JjZS5jb20xFjAUBgNVBAcMDVNhbiBGcmFu
+Y2lzY28xCzAJBgNVBAgMAkNBMQwwCgYDVQQGEwNVU0EwggEiMA0GCSqGSIb3DQEB
+AQUAA4IBDwAwggEKAoIBAQDCQJHLC3fEA54/hOsuSo6yn37WzqIDU0OzLPyKDQSh
+TbQVWoyX5b6QoDEMsiiOMpGM9LdFU/+XraDK99La02Kxzn0f9J1AE0A85AJBFtP2
+ftNCm9rscSorl9F7MjIOHYOFT/3Qq0QgDmS98BT4VC1TeQHNnrOYo4cEyjx5hWwc
+6+8OGR2Q0c6gtPrB1f6BtceozyFEkp4+S0qgG3riMjIfN/6RfNq6DU+wjFz74RRk
+kDz7NaGA9z4/Lebt4poYvQkcNqFpn3+NctgBecA0l5WRyJGXIGGYlUHs/fdPXmoy
+OjEeUI1k4UU0WqXLOPSUzV+z4nnouqQzyh5wjpwn/txrAgMBAAGjgeUwgeIwHQYD
+VR0OBBYEFH6f72ntdmA30aIpvXslsmj15LtpMA8GA1UdEwEB/wQFMAMBAf8wga8G
+A1UdIwSBpzCBpIAUfp/vae12YDfRoim9eyWyaPXku2mhfKR6MHgxEDAOBgNVBAMM
+B0dpdF9IdWIxGDAWBgNVBAsMDzAwRGc1MDAwMDAwZG1SZzEXMBUGA1UECgwOU2Fs
+ZXNmb3JjZS5jb20xFjAUBgNVBAcMDVNhbiBGcmFuY2lzY28xCzAJBgNVBAgMAkNB
+MQwwCgYDVQQGEwNVU0GCDgGav5POowAAAABJz1xVMA0GCSqGSIb3DQEBCwUAA4IB
+AQCAfUbd3h0PJ68V+CqMkDg8OHmC9NJBFrQ4vx3lTQQ3bC1m53XFTVL9N7+tS1+A
+Lkc0x+fU6lzQptIGXe05X71fbsJFFK0zPUOXsh/3QYbCLtSKvABv9OW3cgZKQiDT
+ybPm+jvGLcaO2m7Qv0qeqkgm50611ErRPylYst4pT0Gn459zvQX5Mf+3DnphFxSz
+ZpdauXNkLqK2afBD06iWNdXIK1wU5Sh7jZvWuJb4A1BY2nvggez1KUT3fbbBBRIK
+0PNdQZsyKDhojeRU+FPNgjYnUfCqL0vXR7KUdb1JbK9z/qdcODexDM/Malocb1G2
+W+a0qpny7AQcyWOikoKCV/6v</certificate>
+    <consumerKey>3MVG97L7PWbPq6UzRUPDsnO.86A08uKqQFLEEKyraHq7OiEYtrdNmBij.h0oym3nSYKN2GVjbf4v95C1s7Bbu</consumerKey>
+    <externalClientApplication>New_GitHub_App</externalClientApplication>
+    <isClientCredentialsFlowEnabled>false</isClientCredentialsFlowEnabled>
+    <isCodeCredFlowEnabled>false</isCodeCredFlowEnabled>
+    <isCodeCredPostOnly>false</isCodeCredPostOnly>
+    <isConsumerSecretOptional>false</isConsumerSecretOptional>
+    <isDeviceFlowEnabled>false</isDeviceFlowEnabled>
+    <isIntrospectAllTokens>false</isIntrospectAllTokens>
+    <isNamedUserJwtEnabled>false</isNamedUserJwtEnabled>
+    <isPkceRequired>true</isPkceRequired>
+    <isRefreshTokenRotationEnabled>false</isRefreshTokenRotationEnabled>
+    <isSecretRequiredForRefreshToken>true</isSecretRequiredForRefreshToken>
+    <isSecretRequiredForTokenExchange>true</isSecretRequiredForTokenExchange>
+    <isTokenExchangeEnabled>false</isTokenExchangeEnabled>
+    <label>New_GitHub_App_glbloauth</label>
+    <shouldRotateConsumerKey>false</shouldRotateConsumerKey>
+    <shouldRotateConsumerSecret>false</shouldRotateConsumerSecret>
+</ExtlClntAppGlobalOauthSettings>

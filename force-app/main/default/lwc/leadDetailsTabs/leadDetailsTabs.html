@@ -1,0 +1,86 @@
+<template>
+    <lightning-card class="card-main">
+        <template if:true={lead.data}>
+            <div class="summary-box">
+                <lightning-layout horizontal-align="space" pull-to-boundary="small">
+                    <lightning-layout-item class="summary-item">
+                        <p class="slds-text-heading_medium">{leadName}</p>
+                        <p class="slds-text-heading_small">{leadCompany}</p>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item class="summary-item">
+                        <p class="detail-label">Status</p>
+                        <p class="detail-value">{leadStatus}</p>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item class="summary-item">
+                        <p class="detail-label">Rating</p>
+                        <p class="detail-value slds-text-heading_small">{leadRating}</p>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+
+            <lightning-tabset>
+                <lightning-tab label="Person" value="person">
+                    <div class="slds-p-around_medium">
+                        <lightning-layout multiple-rows>
+                            <template for:each={personData} for:item="item">
+                                <lightning-layout-item size="6" padding="around-small" key={item.label}>
+                                    <p class="detail-label">{item.label}</p>
+                                    <template if:true={item.value.type}>
+                                        <p class="detail-value">
+                                            <a href={item.value.href} target="_blank">{item.value.label}</a>
+                                        </p>
+                                    </template>
+                                    <template if:false={item.value.type}>
+                                        <p class="detail-value">{item.value}</p>
+                                    </template>
+                                </lightning-layout-item>
+                            </template>
+                        </lightning-layout>
+                    </div>
+                </lightning-tab>
+                <lightning-tab label="Company" value="company">
+                    <div class="slds-p-around_medium">
+                        <lightning-layout multiple-rows>
+                            <template for:each={companyData} for:item="item">
+                                <lightning-layout-item size="6" padding="around-small" key={item.label}>
+                                    <p class="detail-label">{item.label}</p>
+
+                                    <template if:true={item.value.type}>
+                                        <p class="detail-value">
+                                            <a href={item.value.href} target="_blank">{item.value.label}</a>
+                                        </p>
+                                    </template>
+                                    <template if:false={item.value.type}>
+                                        <p class="detail-value">{item.value}</p>
+                                    </template>
+                                </lightning-layout-item>
+                            </template>
+                        </lightning-layout>
+                    </div>
+                </lightning-tab>
+                <lightning-tab label="System" value="system">
+                    <div class="slds-p-around_medium">
+                        <lightning-layout multiple-rows>
+                            <template for:each={systemData} for:item="item">
+                                <lightning-layout-item size="6" padding="around-small" key={item.label}>
+                                    <p class="detail-label">{item.label}</p>
+
+                                    <template if:true={item.value.type}>
+                                        <p class="detail-value">
+                                            <a href={item.value.href} target="_blank">{item.value.label}</a>
+                                        </p>
+                                    </template>
+                                    <template if:false={item.value.type}>
+                                        <p class="detail-value">{item.value}</p>
+                                    </template>
+                                </lightning-layout-item>
+                            </template>
+                        </lightning-layout>
+                    </div>
+                </lightning-tab>
+            </lightning-tabset>
+        </template>
+    </lightning-card>
+</template>

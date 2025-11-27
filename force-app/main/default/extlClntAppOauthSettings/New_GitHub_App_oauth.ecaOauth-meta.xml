@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExtlClntAppOauthSettings xmlns="http://soap.sforce.com/2006/04/metadata">
+    <commaSeparatedOauthScopes>Basic, Api, Web, Chatter, RefreshToken</commaSeparatedOauthScopes>
+    <externalClientApplication>New_GitHub_App</externalClientApplication>
+    <isFirstPartyAppEnabled>false</isFirstPartyAppEnabled>
+    <label>New_GitHub_App_oauth</label>
+    <oauthLink>00Dg5000000dmRg:888g50000001LdV</oauthLink>
+</ExtlClntAppOauthSettings>

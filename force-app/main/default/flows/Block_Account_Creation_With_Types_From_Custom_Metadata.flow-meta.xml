@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>65.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <customErrors>
+        <name>Deny_Lead_Type</name>
+        <label>Deny Lead Type</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Loop_Through_Types</targetReference>
+        </connector>
+        <customErrorMessages>
+            <errorMessage>Right now you can&apos;t create Account with that Type listed in metadata. 
+{!$Label.errorMsg}</errorMessage>
+            <isFieldError>false</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <decisions>
+        <name>Is_Type_Allowed</name>
+        <label>Is Type Allowed</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Loop_Through_Types</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Allow</defaultConnectorLabel>
+        <rules>
+            <name>Deny</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Through_Types.Blocked_Type_c__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record.Type</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Deny_Lead_Type</targetReference>
+            </connector>
+            <label>Deny</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <interviewLabel>Block Account Creation With Types From Custom Metadata {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Block Account Creation With Types From Custom Metadata</label>
+    <loops>
+        <name>Loop_Through_Types</name>
+        <label>Loop Through Types</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <collectionReference>Get_Custom_Metadata_Types_To_Enable_Their_Creation</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Is_Type_Allowed</targetReference>
+        </nextValueConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_Custom_Metadata_Types_To_Enable_Their_Creation</name>
+        <label>Get Custom Metadata Types To Enable Their Creation</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Through_Types</targetReference>
+        </connector>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Account_Type_Control__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Custom_Metadata_Types_To_Enable_Their_Creation</targetReference>
+        </connector>
+        <object>Account</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Obsolete</status>
+</Flow>

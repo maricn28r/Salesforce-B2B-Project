@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Controls witch Account types are blocked.</description>
+    <label>Account Type Control</label>
+    <pluralLabel>Account Type Control</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

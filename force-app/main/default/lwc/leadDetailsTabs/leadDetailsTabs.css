@@ -1,0 +1,80 @@
+:host {
+    display: block;
+    background: #f9fafb;
+    border-radius: 12px;
+    overflow: hidden;
+}
+.card-main{
+    margin: 0;
+    padding: 0;
+}
+.summary-box {
+    background: linear-gradient(135deg, #aac5db 0%, #84c2db 100%);
+    color: white;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 4px 8px rgba(1, 118, 211, 0.2);
+    margin-bottom: 1rem;
+}
+.summary-item p {
+    margin: 0.2rem 0;
+}
+.summary-item .detail-label {
+    font-size: 0.8rem;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.summary-item .detail-value {
+    font-weight: 600;
+}
+lightning-tabset {
+    --slds-c-tabs-scoped-color-border: transparent;
+    --slds-c-tabs-scoped-color-text: #444;
+    --slds-c-tabs-scoped-color-text-active: #91bfe5;
+    --slds-c-tabs-scoped-color-border-active: #87a8c4;
+    --slds-c-tabs-scoped-font-weight: 600;
+    --slds-c-tabs-scoped-text-transform: uppercase;
+}
+.slds-p-around_medium {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+.detail-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 0.2rem;
+}
+.detail-value {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #111827;
+    word-break: break-word;
+}
+.detail-value a {
+    color: #0176d3;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s, text-decoration 0.2s;
+}
+.detail-value a:hover {
+    color: #005fb2;
+    text-decoration: underline;
+}
+lightning-layout-item {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+lightning-layout-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    background: #f9fafb;
+}
+lightning-spinner {
+    --lwc-brandPrimary: #0176d3;
+}

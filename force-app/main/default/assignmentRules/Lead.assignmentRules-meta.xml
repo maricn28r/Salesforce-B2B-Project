@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AssignmentRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <assignmentRule>
+        <fullName>Lead Assignment Rule B2B Connect</fullName>
+        <active>true</active>
+        <ruleEntry>
+            <assignedTo>ANZ_Lead_Queue</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <formula>OR(
+    Country = &quot;Australia&quot;,
+    Country = &quot;New Zealand&quot;
+)</formula>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>NA_Lead_Queue</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <formula>OR(
+Country = &quot;Canada&quot;,
+Country = &quot;United States&quot;
+)</formula>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>APAC_Lead_Queue</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <formula>OR(
+Country = &quot;Bangladesh&quot;,
+Country = &quot;Bhutan&quot;,
+Country = &quot;British Indian Ocean Territory&quot;,
+Country = &quot;Brunei Darussalam&quot;,
+Country = &quot;Cambodia&quot;,
+Country = &quot;China&quot;,
+Country = &quot;Christmas Island&quot;,
+Country = &quot;Cocos (Keeling) Islands&quot;,
+Country = &quot;Cook Islands&quot;,
+Country = &quot;Fiji&quot;,
+Country = &quot;French Polynesia&quot;,
+Country = &quot;India&quot;,
+Country = &quot;Indonesia&quot;,
+Country = &quot;Japan&quot;,
+Country = &quot;Kiribati&quot;,
+Country = &quot;Korea, Republic of&quot;,
+Country = &quot;Lao People&apos;s Democratic Republic&quot;,
+Country = &quot;Macao&quot;,
+Country = &quot;Malaysia&quot;,
+Country = &quot;Maldives&quot;,
+Country = &quot;Myanmar&quot;,
+Country = &quot;Nauru&quot;,
+Country = &quot;Nepal&quot;,
+Country = &quot;New Caledonia&quot;,
+Country = &quot;Niue&quot;,
+Country = &quot;Norfolk Island&quot;,
+Country = &quot;Pakistan&quot;,
+Country = &quot;Papua New Guinea&quot;,
+Country = &quot;Philippines&quot;,
+Country = &quot;Pitcairn&quot;,
+Country = &quot;Samoa&quot;,
+Country = &quot;Singapore&quot;,
+Country = &quot;Solomon Islands&quot;,
+Country = &quot;Sri Lanka&quot;,
+Country = &quot;Taiwan, Province of China&quot;,
+Country = &quot;Tajikistan&quot;,
+Country = &quot;Tanzania, United Republic of&quot;,
+Country = &quot;Thailand&quot;,
+Country = &quot;Timor-Leste&quot;,
+Country = &quot;Tokelau&quot;,
+Country = &quot;Tonga&quot;,
+Country = &quot;Tuvalu&quot;,
+Country = &quot;Uzbekistan&quot;,
+Country = &quot;Vanuatu&quot;,
+Country = &quot;Viet Nam&quot;,
+Country = &quot;Wallis and Futuna&quot;
+)</formula>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>LATAM_Lead_Queue</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <formula>OR(
+Country = &quot;Anguilla&quot;,
+Country = &quot;Antigua and Barbuda&quot;,
+Country = &quot;Argentina&quot;,
+Country = &quot;Aruba&quot;,
+Country = &quot;Bahamas&quot;,
+Country = &quot;Barbados&quot;,
+Country = &quot;Belize&quot;,
+Country = &quot;Bermuda&quot;,
+Country = &quot;Bolivia&quot;,
+Country = &quot;Bonaire, Sint Eustatius and Saba&quot;,
+Country = &quot;Brazil&quot;,
+Country = &quot;Cayman Islands&quot;,
+Country = &quot;Chile&quot;,
+Country = &quot;Colombia&quot;,
+Country = &quot;Costa Rica&quot;,
+Country = &quot;Curacao&quot;,
+Country = &quot;Dominica&quot;,
+Country = &quot;Dominican Republic&quot;,
+Country = &quot;Ecuador&quot;,
+Country = &quot;El Salvador&quot;,
+Country = &quot;Falkland Islands (Malvinas)&quot;,
+Country = &quot;French Guiana&quot;,
+Country = &quot;Greenland&quot;,
+Country = &quot;Grenada&quot;,
+Country = &quot;Guadeloupe&quot;,
+Country = &quot;Guatemala&quot;,
+Country = &quot;Guyana&quot;,
+Country = &quot;Haiti&quot;,
+Country = &quot;Honduras&quot;,
+Country = &quot;Jamaica&quot;,
+Country = &quot;Martinique&quot;,
+Country = &quot;Mexico&quot;,
+Country = &quot;Montserrat&quot;,
+Country = &quot;Nicaragua&quot;,
+Country = &quot;Panama&quot;,
+Country = &quot;Paraguay&quot;,
+Country = &quot;Peru&quot;,
+Country = &quot;Saint Kitts and Nevis&quot;,
+Country = &quot;Saint Lucia&quot;,
+Country = &quot;Saint Martin (French Part)&quot;,
+Country = &quot;Saint Pierre and Miquelon&quot;,
+Country = &quot;Saint Vincent and the Grenadines&quot;,
+Country = &quot;Sint Maarten (Dutch Part)&quot;,
+Country = &quot;Suriname&quot;,
+Country = &quot;Trinidad and Tobago&quot;,
+Country = &quot;Turks and Caicos Islands&quot;,
+Country = &quot;Uruguay&quot;,
+Country = &quot;Venezuela, Bolivarian Republic of&quot;,
+Country = &quot;Virgin Islands, British&quot;
+)</formula>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>EMEA_Lead_Queue</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <formula>OR(
+Country = &quot;Afghanistan&quot;,
+Country = &quot;Aland Islands&quot;,
+Country = &quot;Albania&quot;,
+Country = &quot;Algeria&quot;,
+Country = &quot;Andorra&quot;,
+Country = &quot;Angola&quot;,
+Country = &quot;Armenia&quot;,
+Country = &quot;Austria&quot;,
+Country = &quot;Azerbaijan&quot;,
+Country = &quot;Bahrain&quot;,
+Country = &quot;Belarus&quot;,
+Country = &quot;Belgium&quot;,
+Country = &quot;Benin&quot;,
+Country = &quot;Bosnia and Herzegovina&quot;,
+Country = &quot;Botswana&quot;,
+Country = &quot;Bulgaria&quot;,
+Country = &quot;Burkina Faso&quot;,
+Country = &quot;Burundi&quot;,
+Country = &quot;Cameroon&quot;,
+Country = &quot;Cape Verde&quot;,
+Country = &quot;Central African Republic&quot;,
+Country = &quot;Chad&quot;,
+Country = &quot;Comoros&quot;,
+Country = &quot;Congo&quot;,
+Country = &quot;Congo, The Democratic Republic of the&quot;,
+Country = &quot;Cote d&apos;Ivoire&quot;,
+Country = &quot;Croatia&quot;,
+Country = &quot;Cyprus&quot;,
+Country = &quot;Czech Republic&quot;,
+Country = &quot;Denmark&quot;,
+Country = &quot;Djibouti&quot;,
+Country = &quot;Egypt&quot;,
+Country = &quot;Equatorial Guinea&quot;,
+Country = &quot;Eritrea&quot;,
+Country = &quot;Estonia&quot;,
+Country = &quot;Eswatini&quot;,
+Country = &quot;Ethiopia&quot;,
+Country = &quot;Faroe Islands&quot;,
+Country = &quot;Finland&quot;,
+Country = &quot;France&quot;,
+Country = &quot;French Southern Territories&quot;,
+Country = &quot;Gabon&quot;,
+Country = &quot;Gambia&quot;,
+Country = &quot;Georgia&quot;,
+Country = &quot;Germany&quot;,
+Country = &quot;Ghana&quot;,
+Country = &quot;Gibraltar&quot;,
+Country = &quot;Greece&quot;,
+Country = &quot;Guernsey&quot;,
+Country = &quot;Guinea&quot;,
+Country = &quot;Guinea-Bissau&quot;,
+Country = &quot;Holy See (Vatican City State)&quot;,
+Country = &quot;Hungary&quot;,
+Country = &quot;Iceland&quot;,
+Country = &quot;Iraq&quot;,
+Country = &quot;Ireland&quot;,
+Country = &quot;Isle of Man&quot;,
+Country = &quot;Israel&quot;,
+Country = &quot;Italy&quot;,
+Country = &quot;Jersey&quot;,
+Country = &quot;Jordan&quot;,
+Country = &quot;Kazakhstan&quot;,
+Country = &quot;Kenya&quot;,
+Country = &quot;Kosovo&quot;,
+Country = &quot;Kuwait&quot;,
+Country = &quot;Kyrgyzstan&quot;,
+Country = &quot;Latvia&quot;,
+Country = &quot;Lebanon&quot;,
+Country = &quot;Lesotho&quot;,
+Country = &quot;Liberia&quot;,
+Country = &quot;Libya&quot;,
+Country = &quot;Liechtenstein&quot;,
+Country = &quot;Lithuania&quot;,
+Country = &quot;Luxembourg&quot;,
+Country = &quot;Madagascar&quot;,
+Country = &quot;Malawi&quot;,
+Country = &quot;Mali&quot;,
+Country = &quot;Malta&quot;,
+Country = &quot;Mauritania&quot;,
+Country = &quot;Mauritius&quot;,
+Country = &quot;Mayotte&quot;,
+Country = &quot;Moldova, Republic of&quot;,
+Country = &quot;Monaco&quot;,
+Country = &quot;Mongolia&quot;,
+Country = &quot;Montenegro&quot;,
+Country = &quot;Morocco&quot;,
+Country = &quot;Mozambique&quot;,
+Country = &quot;Namibia&quot;,
+Country = &quot;Netherlands&quot;,
+Country = &quot;Niger&quot;,
+Country = &quot;Nigeria&quot;,
+Country = &quot;North Macedonia&quot;,
+Country = &quot;Norway&quot;,
+Country = &quot;Oman&quot;,
+Country = &quot;Palestinian Territory, Occupied&quot;,
+Country = &quot;Poland&quot;,
+Country = &quot;Portugal&quot;,
+Country = &quot;Qatar&quot;,
+Country = &quot;Reunion&quot;,
+Country = &quot;Romania&quot;,
+Country = &quot;Russian Federation&quot;,
+Country = &quot;Rwanda&quot;,
+Country = &quot;Saint Barthelemy&quot;,
+Country = &quot;Saint Helena, Ascension and Tristan Da Cunha&quot;,
+Country = &quot;San Marino&quot;,
+Country = &quot;Sao Tome and Principe&quot;,
+Country = &quot;Saudi Arabia&quot;,
+Country = &quot;Senegal&quot;,
+Country = &quot;Serbia&quot;,
+Country = &quot;Seychelles&quot;,
+Country = &quot;Sierra Leone&quot;,
+Country = &quot;Slovakia&quot;,
+Country = &quot;Slovenia&quot;,
+Country = &quot;Somalia&quot;,
+Country = &quot;South Africa&quot;,
+Country = &quot;South Sudan&quot;,
+Country = &quot;Spain&quot;,
+Country = &quot;Sweden&quot;,
+Country = &quot;Switzerland&quot;,
+Country = &quot;Tunisia&quot;,
+Country = &quot;Turkey&quot;,
+Country = &quot;Turkmenistan&quot;,
+Country = &quot;Uganda&quot;,
+Country = &quot;Ukraine&quot;,
+Country = &quot;United Arab Emirates&quot;,
+Country = &quot;United Kingdom&quot;,
+Country = &quot;Western Sahara&quot;,
+Country = &quot;Yemen&quot;,
+Country = &quot;Zambia&quot;,
+Country = &quot;Zimbabwe&quot;
+)</formula>
+        </ruleEntry>
+    </assignmentRule>
+    <assignmentRule>
+        <fullName>Standard</fullName>
+        <active>false</active>
+        <ruleEntry>
+            <assignedTo>epic.bad09f416584@orgfarm.salesforce.com</assignedTo>
+            <assignedToType>User</assignedToType>
+            <criteriaItems>
+                <field>Lead.Country</field>
+                <operation>equals</operation>
+                <value>US,USA,United States,United States of America</value>
+            </criteriaItems>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>epic.bad09f416584@orgfarm.salesforce.com</assignedTo>
+            <assignedToType>User</assignedToType>
+            <criteriaItems>
+                <field>Lead.Country</field>
+                <operation>notEqual</operation>
+                <value>US,USA,United States,United States of America</value>
+            </criteriaItems>
+        </ruleEntry>
+    </assignmentRule>
+</AssignmentRules>

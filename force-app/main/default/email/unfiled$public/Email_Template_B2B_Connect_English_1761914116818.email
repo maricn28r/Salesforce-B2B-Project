@@ -1,0 +1,8 @@
+<html>
+ <head>
+  <title></title>
+ </head>
+ <body style="height: auto; min-height: auto;">
+  Dear {{{Recipient.FirstName}}} {{{Recipient.LastName}}},<br /> <br /> Thank you for your interest in B2B Connect and your willingness to join our growing community of professionals. We understand how valuable your time is, and we want to assure you that your inquiry is a top priority for us.<br /> <img alt="logo" src="{[devName:logo]}" style="max-width: 1615.9499999999998px" title="logo" />
+ </body>
+</html>
