@@ -46,10 +46,6 @@ jobs:
             --instance-url ${{ secrets.INSTANCE_URL }} \
             --alias target-org
 
-      - name: Set default org
-        run: |
-          sf config set default-org target-org
-
       - name: Verify Authentication
         run: |
           sf org display --target-org target-org
