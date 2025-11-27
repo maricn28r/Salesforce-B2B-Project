@@ -42,7 +42,7 @@ jobs:
           sfdx force:source:deploy \
             --sourcepath force-app \
             --targetusername target-deployment-org \
-            --testlevel RunLocalTests 
+            --testlevel RunAllTests 
           
       - name: Deployment Summary
         if: success()
