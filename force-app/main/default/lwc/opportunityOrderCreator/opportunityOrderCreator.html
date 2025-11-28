@@ -1,0 +1,63 @@
+<template>
+    <lightning-card title="Create Order from Opportunity">
+        <div class="slds-m-around_medium">
+            
+            <template if:true={isLoading}>
+                <lightning-spinner size="medium"></lightning-spinner>
+            </template>
+            
+            <div class="slds-grid slds-wrap slds-gutters_small">  
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12">
+                    <lightning-input
+                        type="search"
+                        label="Product Search"
+                        value={searchTerm}
+                        onchange={handleSearchChange}
+                        placeholder="Search by Name or Code"
+                    ></lightning-input>
+                </div>
+
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
+                    <lightning-combobox
+                        name="category"
+                        label="Category Filter"
+                        value={selectedCategory}
+                        placeholder="Select Category"
+                        options={productCategories}
+                        onchange={handleCategoryChange}
+                    ></lightning-combobox>
+                </div>
+
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-align-bottom">
+                    <lightning-button
+                        label="Search Products"
+                        variant="brand"
+                        onclick={handleSearch}
+                        class="slds-m-top_large"
+                    ></lightning-button>
+                </div>
+            </div>
+            
+            <div class="slds-m-top_large">
+                <h3 class="slds-text-heading_small slds-m-bottom_small">Search Results ({productList.length} found)</h3>
+                <lightning-datatable
+                    key-field="id"
+                    data={productList}
+                    columns={columns}
+                    hide-checkbox-column="false" show-row-number-column
+                    max-row-selection="100"
+                ></lightning-datatable>
+            </div> 
+        </div>
+        
+        <div slot="footer" class="slds-modal__footer">
+            <lightning-button 
+                variant="neutral" 
+                label="Cancel" 
+                onclick={handleClose}
+                class="slds-m-right_x-small"
+            ></lightning-button>
+        </div>
+        
+    </lightning-card>
+</template>
