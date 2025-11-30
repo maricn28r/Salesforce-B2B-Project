@@ -1,14 +1,18 @@
 name: Automatic Deployment
 
 on:
-  push:
+  pull_request:
     branches:
       - qa
-      - main
+    types:
+      - closed
+
 jobs:
   deploy_metadata:
     name: Deploy Full Source to ORG
     runs-on: ubuntu-latest
+
+    if: github.event.pull_request.merged == true
 
     steps:
       - name: Checkout Source Code
@@ -21,16 +25,16 @@ jobs:
 
       - name: Create JWT Key File
         run: |
-          echo "${{ secrets.SF_JWT_KEY }}" > jwt-key.txt
+          echo "${{ secrets.JWT_KEY }}" > jwt-key.txt
           chmod 600 jwt-key.txt
           
       - name: Authenticate to Target Org
         run: |
           sfdx auth:jwt:grant \
-            --client-id ${{ secrets.M_SF_CLIENT_ID }} \
+            --client-id ${{ secrets.CLIENT_ID }} \
             --jwt-key-file jwt-key.txt \
-            --username ${{ secrets.M_SF_USERNAME }} \
-            --instance-url ${{ secrets.M_SF_INSTANCE_URL }} \
+            --username ${{ secrets.USERNAME }} \
+            --instance-url ${{ secrets.INSTANCE_URL }} \
             --setalias target-deployment-org
 
       - name: Deploy Full Source Code
@@ -38,7 +42,7 @@ jobs:
           sfdx force:source:deploy \
             --sourcepath force-app \
             --targetusername target-deployment-org \
-            --testlevel RunLocalTests 
+            --testlevel RunLocalTests
           
       - name: Deployment Summary
         if: success()
