@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Company_Growth_Status__c</fullName>
+    <description>Quick strategic classification of the company based on its current stage of market development and needs.</description>
+    <label>Company Growth Status</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Start-up / Beginning</fullName>
+                <default>false</default>
+                <label>Start-up / Beginning</label>
+            </value>
+            <value>
+                <fullName>Stable</fullName>
+                <default>false</default>
+                <label>Stable</label>
+            </value>
+            <value>
+                <fullName>Rapid Growth</fullName>
+                <default>false</default>
+                <label>Rapid Growth</label>
+            </value>
+            <value>
+                <fullName>Critical Need</fullName>
+                <default>false</default>
+                <label>Critical Need</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

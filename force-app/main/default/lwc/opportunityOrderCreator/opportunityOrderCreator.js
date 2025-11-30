@@ -11,6 +11,8 @@ const COLUMNS = [
 ];
 
 export default class OpportunityOrderCreator extends LightningElement {
+    @api recordId;
+
     searchTerm = '';
     selectedCategory = '';
     @track productCategories = []; 
@@ -36,6 +38,7 @@ export default class OpportunityOrderCreator extends LightningElement {
 
     handleSearch() {
         this.isLoading = true;
+        
         searchProducts({ searchTerm: this.searchTerm, category: this.selectedCategory })
             .then(result => {
                 this.productList = result;

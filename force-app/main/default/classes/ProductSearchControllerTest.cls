@@ -38,6 +38,7 @@ private class ProductSearchControllerTest {
 
     @isTest 
     static void testSearchByTerm() {
+        
         Test.startTest();
         List<ProductSearchController.ProductWrapper> results = ProductSearchController.searchProducts('Crane', null);
         Test.stopTest();
