@@ -39,10 +39,10 @@ jobs:
 
       - name: Deploy Full Source Code
         run: |
-          sf project deploy start \
-            --source-dir force-app \
-            --target-org validation-org \
-            --test-level RunLocalTests 
+          sfdx force:source:deploy \
+            --sourcepath force-app \
+            --targetusername target-deployment-org \
+            --testlevel RunLocalTests
           
       - name: Deployment Summary
         if: success()
