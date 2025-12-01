@@ -6,57 +6,133 @@
                 <lightning-spinner size="medium"></lightning-spinner>
             </template>
             
-            <div class="slds-grid slds-wrap slds-gutters_small">  
-                <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12">
-                    <lightning-input
-                        type="search"
-                        label="Product Search"
-                        value={searchTerm}
-                        onchange={handleSearchChange}
-                        placeholder="Search by Name or Code"
-                    ></lightning-input>
-                </div>
+            <template if:true={isSearching}>
+                
+                <div class="slds-grid slds-wrap slds-gutters_small">  
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12">
+                        <lightning-input
+                            type="search"
+                            label="Product Search"
+                            value={searchTerm}
+                            onchange={handleSearchChange}
+                            placeholder="Search by Name or Code"
+                        ></lightning-input>
+                    </div>
 
-                <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
-                    <lightning-combobox
-                        name="category"
-                        label="Category Filter"
-                        value={selectedCategory}
-                        placeholder="Select Category"
-                        options={productCategories}
-                        onchange={handleCategoryChange}
-                    ></lightning-combobox>
-                </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
+                        <lightning-combobox
+                            name="category"
+                            label="Category Filter"
+                            value={selectedCategory}
+                            placeholder="Select Category"
+                            options={productCategories}
+                            onchange={handleCategoryChange}
+                        ></lightning-combobox>
+                    </div>
 
-                <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-align-bottom">
-                    <lightning-button
-                        label="Search Products"
-                        variant="brand"
-                        onclick={handleSearch}
-                        class="slds-m-top_large"
-                    ></lightning-button>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-align-bottom">
+                        <lightning-button
+                            label="Search Products"
+                            variant="brand"
+                            onclick={handleSearch}
+                            class="slds-m-top_large"
+                        ></lightning-button>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="slds-m-top_large">
-                <h3 class="slds-text-heading_small slds-m-bottom_small">Search Results ({productList.length} found)</h3>
-                <lightning-datatable
-                    key-field="id"
-                    data={productList}
-                    columns={columns}
-                    hide-checkbox-column="false" show-row-number-column
-                    max-row-selection="100"
-                ></lightning-datatable>
-            </div> 
+                
+                <div class="slds-m-top_large">
+                    <h3 class="slds-text-heading_small slds-m-bottom_small">Search Results ({totalRecords} total, Page {pageNumber} of {totalPages})</h3>
+                    
+                    <lightning-datatable
+                        key-field="id"
+                        data={productList}
+                        columns={columns}
+                        show-row-number-column
+                        max-row-selection="100"
+                        onrowselection={handleRowSelection} ></lightning-datatable>
+
+                    <div class="slds-grid slds-grid_align-spread slds-m-top_small">
+                        <lightning-button
+                            label="Previous"
+                            onclick={handlePrevious}
+                            disabled={isFirstPage}
+                        ></lightning-button>
+                        <lightning-button
+                            label="Next"
+                            onclick={handleNext}
+                            disabled={isLastPage}
+                        ></lightning-button>
+                    </div>
+                </div> 
+            </template>
+
+            <template if:true={isReviewing}>
+                <h3 class="slds-text-heading_large slds-m-bottom_medium">Order Review ({selectedProducts.length} Items)</h3>
+                
+                <div class="slds-box">
+                    <template for:each={selectedProducts} for:item="item">
+                        <div key={item.productId} class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center slds-m-vertical_small slds-border_bottom">
+                            
+                            <div class="slds-col slds-size_5-of-12 slds-p-around_small">
+                                <p class="slds-text-heading_small">{item.name}</p>
+                                <p class="slds-text-body_small slds-text-color_weak">{item.productCode}</p>
+                            </div>
+                            
+                            <div class="slds-col slds-size_3-of-12 slds-p-around_small">
+                                <lightning-input
+                                    label="Quantity"
+                                    type="number"
+                                    name={item.productId}
+                                    value={item.quantity}
+                                    min="1"
+                                    step="1"
+                                    onchange={handleQuantityChange} ></lightning-input>
+                            </div>
+                            
+                            <div class="slds-col slds-size_2-of-12 slds-p-around_small">
+                                <lightning-button-icon
+                                    icon-name="utility:delete"
+                                    alternative-text="Remove"
+                                    title="Remove item from order"
+                                    name={item.productId}
+                                    onclick={handleRemoveItem} ></lightning-button-icon>
+                            </div>
+
+                        </div>
+                    </template>
+                </div>
+            </template>
+
         </div>
         
         <div slot="footer" class="slds-modal__footer">
-            <lightning-button 
-                variant="neutral" 
-                label="Cancel" 
-                onclick={handleClose}
-                class="slds-m-right_x-small"
-            ></lightning-button>
+            <template if:true={isSearching}>
+                <lightning-button 
+                    variant="neutral" 
+                    label="Cancel" 
+                    onclick={handleClose}
+                    class="slds-m-right_x-small"
+                ></lightning-button>
+                <lightning-button
+                    label="Next: Review Order"
+                    variant="brand"
+                    onclick={handleNextStep}
+                ></lightning-button>
+            </template>
+            
+            <template if:true={isReviewing}>
+                <lightning-button 
+                    variant="neutral" 
+                    label="Back to Search" 
+                    onclick={handleBackToSearch}
+                    class="slds-m-right_x-small"
+                ></lightning-button>
+                <lightning-button
+                    label="Create Order"
+                    variant="brand"
+                    onclick={handleCreateOrder}
+                ></lightning-button>
+            </template>
         </div>
         
     </lightning-card>
