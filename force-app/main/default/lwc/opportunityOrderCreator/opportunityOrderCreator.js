@@ -56,6 +56,18 @@ export default class OpportunityOrderCreator extends LightningElement {
                 this.totalPages = Math.ceil(total / this.pageSize);
                 this.loadProducts();
             })
+        }
+
+    handleSearch() {
+        this.pageNumber = 1;
+        this.isLoading = true;
+
+        countProducts({ searchTerm: this.searchTerm, category: this.selectedCategory })
+            .then(total => {
+                this.totalRecords = total;
+                this.totalPages = Math.ceil(total / this.pageSize);
+                this.loadProducts();
+            })
             .catch(error => {
                 this.showToast('Error', 'Error counting products: ' + error.body.message, 'error');
                 console.error('Error counting products:', error);
@@ -121,6 +133,7 @@ export default class OpportunityOrderCreator extends LightningElement {
 
     handleSearchChange(event) {
         this.searchTerm = event.target.value;
+        this.handleSearch();
     }
 
     handleCategoryChange(event) {

@@ -107,6 +107,24 @@ public with sharing class ProductSearchControllerTest {
         Test.stopTest();
         System.assertEquals(1, count);
     }
+
+    @isTest
+    static void testGetProductCategories() {
+        Test.startTest();
+        Integer count = ProductSearchController.countProducts(null, null);
+        Test.stopTest();
+        
+        System.assertEquals(expectedCount, count);
+    }
+
+    @isTest
+    static void testCountProducts_WithSearchTermAndCategory() {
+        Test.startTest();
+        Integer count = ProductSearchController.countProducts('Wrench', CATEGORY_TOOLS);
+        Test.stopTest();
+        
+        System.assertEquals(1, count);
+    }
     
     @isTest
     static void testGetProductCategories() {
