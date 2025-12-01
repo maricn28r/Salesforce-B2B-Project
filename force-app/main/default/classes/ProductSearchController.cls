@@ -1,3 +1,4 @@
+
 public with sharing class ProductSearchController {
     public class ProductWrapper {
         @AuraEnabled public String id;
