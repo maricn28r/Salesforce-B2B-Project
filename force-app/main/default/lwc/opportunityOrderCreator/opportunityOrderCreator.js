@@ -17,7 +17,7 @@ export default class OpportunityOrderCreator extends LightningElement {
     @api recordId;
     isSearching = true;
     isReviewing = false; 
-    isLoading = false; 
+
     pageNumber = 1;
     pageSize = 10; 
     totalRecords = 0;
@@ -28,7 +28,6 @@ export default class OpportunityOrderCreator extends LightningElement {
     @track productList = [];
     @track selectedProducts = []; 
     selectedProductMap = new Map();
-    productCategories;
 
     @wire(getProductCategories)
     wiredCategories({ error, data }) {
@@ -46,15 +45,23 @@ export default class OpportunityOrderCreator extends LightningElement {
         }
     }
 
-    handleSearch() {
-        this.pageNumber = 1;
+    loadProducts() {
         this.isLoading = true;
+        let offset = (this.pageNumber - 1) * this.pageSize;
 
-        countProducts({ searchTerm: this.searchTerm, category: this.selectedCategory })
-            .then(total => {
-                this.totalRecords = total;
-                this.totalPages = Math.ceil(total / this.pageSize);
-                this.loadProducts();
+        searchProducts({ searchTerm: this.searchTerm, category: this.selectedCategory, offset: offset })
+            .then(result => {
+                
+                console.debug('APEX Returned Data:', JSON.stringify(result));
+                
+                this.productList = result.map(item => ({...item, quantity: 1})); 
+                
+                console.debug('Final productList (mapped):', JSON.stringify(this.productList));
+                
+                this.isLoading = false;
+                if (result.length === 0 && this.pageNumber === 1) {
+                    this.showToast('Search Info', 'No products found matching the criteria.', 'info');
+                }
             })
         }
 
@@ -88,22 +95,39 @@ export default class OpportunityOrderCreator extends LightningElement {
             this.loadProducts();
         }
     }
-    
-    saveDraftValues() {
+
+    handleNextStep() {
         const datatable = this.template.querySelector('lightning-datatable');
-        if (!datatable) return;
+        const selectedRows = datatable.getSelectedRows();
 
-        const draftValues = datatable.draftValues; 
-
-        if (draftValues && draftValues.length > 0) {
-            this.handleCellChange({ detail: { draftValues: draftValues } });
+        if (selectedRows.length === 0) {
+            this.showToast('Warning', 'Select at least one product to create an Order.', 'warning');
+            return;
         }
+
+        this.selectedProducts = selectedRows
+            .map(row => {
+                let quantity = row.quantity && row.quantity > 0 ? row.quantity : 1;
+                if (quantity <= 0) {
+                    this.showToast('Warning', 'Quantity for ' + row.name + ' must be greater than 0. Using 1.', 'warning');
+                    quantity = 1;
+                }
+                return {
+                    productId: row.id,
+                    name: row.name,
+                    productCode: row.productCode,
+                    quantity: quantity,
+                    unitPrice: 0 
+                };
+            });
+        
+        this.isSearching = false;
+        this.isReviewing = true;
     }
 
     handleBackToSearch() {
         this.isSearching = true;
         this.isReviewing = false;
-        this.loadProducts(); 
     }
     
     handleCreateOrder() {
@@ -122,8 +146,7 @@ export default class OpportunityOrderCreator extends LightningElement {
             this.handleClose(); 
         })
         .catch(error => {
-            let errorMessage = error.body && error.body.message ? error.body.message : 'Unknown error';
-            this.showToast('Error', 'Error creating Order: ' + errorMessage, 'error');
+            this.showToast('Error', 'Error creating Order: ' + error.body.message, 'error');
             console.error('Error creating Order:', error);
         })
         .finally(() => {
@@ -159,7 +182,29 @@ export default class OpportunityOrderCreator extends LightningElement {
     }
 
     get isLastPage() {
-        return this.pageNumber >= this.totalPages || this.totalRecords === 0;
+        return this.pageNumber === this.totalPages || this.totalRecords === 0;
+    }
+
+    handleRowSelection(event) {
+        const selectedRows = this.template.querySelector('lightning-datatable').getSelectedRows();
+        const currentPageRows = this.productList;
+        currentPageRows.forEach(item => {
+            if (this.selectedProductMap.has(item.id)) {
+                this.selectedProductMap.delete(item.id);
+            }
+        });
+
+        selectedRows.forEach(item => {
+            let quantity = item.quantity && item.quantity > 0 ? item.quantity : 1;
+            this.selectedProductMap.set(item.id, {
+                productId: item.id,
+                name: item.name,
+                productCode: item.productCode,
+                quantity: quantity 
+            });
+        });
+        
+        this.updateSelectedProductsList();
     }
     
     updateSelectedProductsList() {
@@ -174,7 +219,7 @@ export default class OpportunityOrderCreator extends LightningElement {
             .then(result => {
                 this.productList = result.map(item => {
                     const existingItem = this.selectedProductMap.get(item.id);
-                    let quantity = existingItem ? existingItem.quantity : 1; 
+                    let quantity = existingItem ? existingItem.quantity : 1;
                     return {...item, quantity: quantity};
                 });
                 this.isLoading = false;
@@ -183,11 +228,6 @@ export default class OpportunityOrderCreator extends LightningElement {
                     this.showToast('Search Info', 'No products found matching the criteria.', 'info');
                 }
             })
-            .catch(error => {
-                this.showToast('Error', 'Error loading products: ' + error.body.message, 'error');
-                console.error('Error loading products:', error);
-                this.isLoading = false;
-            });
     }
 
     setInitialSelection() {
@@ -195,42 +235,10 @@ export default class OpportunityOrderCreator extends LightningElement {
             .filter(item => this.selectedProductMap.has(item.id))
             .map(item => item.id);
             
-        const datatable = this.template.querySelector('lightning-datatable');
-        if (datatable) {
-            datatable.selectedRows = selectedIds;
-        }
-    }
-
-    handleRowSelection(event) {
-        const datatable = this.template.querySelector('lightning-datatable');
-        if (!datatable) return;
-
-        const selectedRows = datatable.getSelectedRows();
-        const selectedIdsOnPage = new Set(selectedRows.map(row => row.id));
-
-        this.productList.forEach(item => {
-            if (this.selectedProductMap.has(item.id) && !selectedIdsOnPage.has(item.id)) {
-                this.selectedProductMap.delete(item.id);
-            }
-        });
-
-        selectedRows.forEach(item => {
-            if (!this.selectedProductMap.has(item.id)) {
-                this.selectedProductMap.set(item.id, {
-                    productId: item.id,
-                    name: item.name,
-                    productCode: item.productCode,
-                    quantity: item.quantity && item.quantity > 0 ? item.quantity : 1 
-                });
-            }
-        });
-        
-        this.updateSelectedProductsList();
+        this.template.querySelector('lightning-datatable').selectedRows = selectedIds;
     }
 
     handleNextStep() {
-        this.saveDraftValues();
-        
         this.updateSelectedProductsList(); 
 
         if (this.selectedProducts.length === 0) {
@@ -264,35 +272,8 @@ export default class OpportunityOrderCreator extends LightningElement {
         const productIdToRemove = event.target.name;
         this.selectedProductMap.delete(productIdToRemove);
         this.updateSelectedProductsList();
-        
         if (this.selectedProducts.length === 0) {
             this.handleBackToSearch();
-        } else {
-            this.setInitialSelection();
         }
-    }
-    
-    handleCellChange(event) {
-        const datatable = this.template.querySelector('lightning-datatable');
-        const draftValues = event.detail.draftValues;
-        const updatedProductList = JSON.parse(JSON.stringify(this.productList));
-        
-        draftValues.forEach(draft => {
-            const productId = draft.id;
-            const newQuantity = parseFloat(draft.quantity);
-            const index = updatedProductList.findIndex(item => item.id === productId);
-            
-            if (index !== -1) {
-                updatedProductList[index].quantity = Math.max(1, newQuantity || 1);
-            }
-            const mapItem = this.selectedProductMap.get(productId);
-            if (mapItem) {
-                mapItem.quantity = Math.max(1, newQuantity || 1);
-                this.updateSelectedProductsList();
-            }
-        });
-        
-        this.productList = updatedProductList;
-        datatable.draftValues = [];
     }
 }

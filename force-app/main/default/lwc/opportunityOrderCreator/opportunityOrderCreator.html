@@ -1,10 +1,13 @@
 <template>
     <lightning-card title="Create Order from Opportunity">
         <div class="slds-m-around_medium">
+            
             <template if:true={isLoading}>
                 <lightning-spinner size="medium"></lightning-spinner>
             </template>
-            <template if:true={isSearching}>  
+            
+            <template if:true={isSearching}>
+                
                 <div class="slds-grid slds-wrap slds-gutters_small">  
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12">
                         <lightning-input
@@ -15,6 +18,7 @@
                             placeholder="Search by Name or Code"
                         ></lightning-input>
                     </div>
+
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
                         <lightning-combobox
                             name="category"
@@ -25,6 +29,7 @@
                             onchange={handleCategoryChange}
                         ></lightning-combobox>
                     </div>
+
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-align-bottom">
                         <lightning-button
                             label="Search Products"
@@ -34,18 +39,18 @@
                         ></lightning-button>
                     </div>
                 </div>
+                
                 <div class="slds-m-top_large">
                     <h3 class="slds-text-heading_small slds-m-bottom_small">Search Results ({totalRecords} total, Page {pageNumber} of {totalPages})</h3>
+                    
                     <lightning-datatable
                         key-field="id"
                         data={productList}
                         columns={columns}
-                        onrowselection={handleRowSelection}
-                        oncellchange={handleCellChange}  
+                        show-row-number-column
                         max-row-selection="100"
-                        selected-rows={preSelectedRows} 
-                        resize-column-disabled >
-                    </lightning-datatable>
+                        onrowselection={handleRowSelection} ></lightning-datatable>
+
                     <div class="slds-grid slds-grid_align-spread slds-m-top_small">
                         <lightning-button
                             label="Previous"
@@ -60,15 +65,19 @@
                     </div>
                 </div> 
             </template>
+
             <template if:true={isReviewing}>
                 <h3 class="slds-text-heading_large slds-m-bottom_medium">Order Review ({selectedProducts.length} Items)</h3>
+                
                 <div class="slds-box">
                     <template for:each={selectedProducts} for:item="item">
                         <div key={item.productId} class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center slds-m-vertical_small slds-border_bottom">
+                            
                             <div class="slds-col slds-size_5-of-12 slds-p-around_small">
                                 <p class="slds-text-heading_small">{item.name}</p>
                                 <p class="slds-text-body_small slds-text-color_weak">{item.productCode}</p>
                             </div>
+                            
                             <div class="slds-col slds-size_3-of-12 slds-p-around_small">
                                 <lightning-input
                                     label="Quantity"
@@ -77,23 +86,25 @@
                                     value={item.quantity}
                                     min="1"
                                     step="1"
-                                    onchange={handleQuantityChange} >
-                                </lightning-input>
+                                    onchange={handleQuantityChange} ></lightning-input>
                             </div>
+                            
                             <div class="slds-col slds-size_2-of-12 slds-p-around_small">
                                 <lightning-button-icon
                                     icon-name="utility:delete"
                                     alternative-text="Remove"
                                     title="Remove item from order"
                                     name={item.productId}
-                                    onclick={handleRemoveItem} >
-                                </lightning-button-icon>
+                                    onclick={handleRemoveItem} ></lightning-button-icon>
                             </div>
+
                         </div>
                     </template>
                 </div>
             </template>
+
         </div>
+        
         <div slot="footer" class="slds-modal__footer">
             <template if:true={isSearching}>
                 <lightning-button 
@@ -107,7 +118,8 @@
                     variant="brand"
                     onclick={handleNextStep}
                 ></lightning-button>
-            </template> 
+            </template>
+            
             <template if:true={isReviewing}>
                 <lightning-button 
                     variant="neutral" 
@@ -122,5 +134,6 @@
                 ></lightning-button>
             </template>
         </div>
+        
     </lightning-card>
 </template>

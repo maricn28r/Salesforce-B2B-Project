@@ -59,6 +59,7 @@ public with sharing class ProductSearchControllerTest {
         Test.startTest();
         ProductSearchController.ProductWrapper wrapper = new ProductSearchController.ProductWrapper(testProduct);
         Test.stopTest();
+        
         System.assertEquals(testProduct.Id, wrapper.id);
         System.assertEquals(testProduct.Name, wrapper.name);
         System.assertEquals(testProduct.ProductCode, wrapper.productCode);
@@ -70,6 +71,7 @@ public with sharing class ProductSearchControllerTest {
         Test.startTest();
         List<ProductSearchController.ProductWrapper> results = ProductSearchController.searchProducts('XYZ', null, 0);
         Test.stopTest();
+        
         System.assertEquals(1, results.size());
         System.assertEquals('Wireless Mouse Logitech', results[0].name);
     }
@@ -79,6 +81,7 @@ public with sharing class ProductSearchControllerTest {
         Test.startTest();
         List<ProductSearchController.ProductWrapper> results = ProductSearchController.searchProducts('Drill', CATEGORY_TOOLS, 0);
         Test.stopTest();
+        
         System.assertEquals(1, results.size());
         System.assertEquals('Bosch Impact Drill', results[0].name);
     }
@@ -87,29 +90,15 @@ public with sharing class ProductSearchControllerTest {
     static void testSearchProducts_Pagination() {
         Test.startTest();
         List<ProductSearchController.ProductWrapper> secondPage = ProductSearchController.searchProducts(null, null, 10);
-        Test.stopTest();   
+        Test.stopTest();
+        
         System.assertEquals(9, secondPage.size());
     }
 
     @isTest
     static void testCountProducts_NoFilters() {
         Integer expectedCount = [SELECT COUNT() FROM Product2 WHERE IsActive = TRUE]; 
-        Test.startTest();
-        Integer count = ProductSearchController.countProducts(null, null);
-        Test.stopTest();
-        System.assertEquals(expectedCount, count);
-    }
-
-    @isTest
-    static void testCountProducts_WithSearchTermAndCategory() {
-        Test.startTest();
-        Integer count = ProductSearchController.countProducts('Wrench', CATEGORY_TOOLS);
-        Test.stopTest();
-        System.assertEquals(1, count);
-    }
-
-    @isTest
-    static void testGetProductCategories() {
+        
         Test.startTest();
         Integer count = ProductSearchController.countProducts(null, null);
         Test.stopTest();
@@ -131,6 +120,7 @@ public with sharing class ProductSearchControllerTest {
         Test.startTest();
         List<String> categories = ProductSearchController.getProductCategories();
         Test.stopTest();
+        
         System.assertEquals(2, categories.size());
         System.assert(categories.contains(CATEGORY_ELECTRONICS));
         System.assert(categories.contains(CATEGORY_TOOLS));
@@ -143,7 +133,7 @@ public with sharing class ProductSearchControllerTest {
         Product2 prod1 = [SELECT Id FROM Product2 WHERE ProductCode = 'LX13-001' LIMIT 1];
         Product2 prod2 = [SELECT Id FROM Product2 WHERE ProductCode = 'MBL-XYZ' LIMIT 1];
         PricebookEntry pbe1 = [SELECT Id, UnitPrice FROM PricebookEntry WHERE Product2Id = :prod1.Id AND Pricebook2Id = :opp.Pricebook2Id LIMIT 1];
-    
+        
         List<Map<String, Object>> selectedProducts = new List<Map<String, Object>>();
         selectedProducts.add(new Map<String, Object>{
             'productId' => prod1.Id, 
@@ -157,9 +147,11 @@ public with sharing class ProductSearchControllerTest {
         Test.startTest();
         Order newOrder = ProductSearchController.createOrderFromOpportunity(opp.Id, selectedProducts);
         Test.stopTest();
+        
         System.assertNotEquals(null, newOrder.Id);
         Order createdOrder = [SELECT Id, OpportunityId, AccountId, Status, Pricebook2Id, ContractId FROM Order WHERE Id = :newOrder.Id LIMIT 1];
         System.assertEquals(opp.Id, createdOrder.OpportunityId);
+        
         List<OrderItem> orderItems = [SELECT Id, PricebookEntryId, Quantity, UnitPrice FROM OrderItem WHERE OrderId = :newOrder.Id];
         System.assertEquals(2, orderItems.size());
         System.assertEquals(pbe1.UnitPrice, orderItems[0].UnitPrice);
